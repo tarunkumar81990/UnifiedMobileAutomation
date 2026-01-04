@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="methods" name="Suite" thread-count="5">
+  <test name="Test">
+    <classes>
+      <class name="stepdefinitions.Hooks"/>
+      <class name="com.automation.driver.BaseTest"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

@@ -29,7 +29,8 @@ public class DriverFactory {
 				UiAutomator2Options options = new UiAutomator2Options();
 				options.setDeviceName(device_name);
 				options.setApp(app);
-				URL url = URI.create("https://" + host + ":" + port).toURL();
+				options.setFullReset(true);
+				URL url = URI.create("http://" + host + ":" + port).toURL();
 				driver = new AndroidDriver(url, options);
 
 			} else if (platform.equalsIgnoreCase("android")) {

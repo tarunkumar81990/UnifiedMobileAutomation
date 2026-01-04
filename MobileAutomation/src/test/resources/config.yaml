@@ -14,7 +14,7 @@ platform_config:
  android:
    platform_version: "13"
    device_name: TarunPhone
-   app_path: src/test/resources/app/ApiDemos-debug.apk
+   app_path: src/test/resources/app/General-Store.apk
  ios:
   platform_version: "17.0"
   device_name: iPhone 14
