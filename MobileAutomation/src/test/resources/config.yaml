@@ -27,10 +27,11 @@ server:
   start_server: true
   log_level: info
  cloud:
-  url: https://hub.browserstack.com/wd/hub
+
   
 cloud:
  browserstack:
+  url: https://hub.browserstack.com/wd/hub
   username: ${BS_USERNAME}
   access_key: ${BS_ACCESS_KEY}
   app_id_android: bs://abcdef123456
