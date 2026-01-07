@@ -9,7 +9,6 @@ public class Hooks extends BaseTest{
 @Before
 public void before() throws Exception {
 	initializeDriver();
-	System.out.println("Tarun Kumar");
 	initPages();
 	}
 
