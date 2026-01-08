@@ -2,7 +2,7 @@ project_name: Mobile_Automation
 execution:
  mode: local #local/cloud
  platform: android #android/ios
- parallel: no #yes/no
+ parallel: yes #yes/no
  max_threads: 5
  retry: true #true/false
  
@@ -26,7 +26,6 @@ server:
   port: 4723
   start_server: true
   log_level: info
- cloud:
 
   
 cloud:
@@ -37,9 +36,15 @@ cloud:
   app_id_android: bs://abcdef123456
   app_id_ios: bs://xyz987654
   device_pool:
+   device_strategy: multiple #single/multiple 
+   device_count: 2 # no. of devices used in parallel run
+   device_type: both # android/ios/both
+   android :
     - Pixel 8
     - Samsung Galaxy S23
+   ios:
     - iPhone 15
+    - iPhone 16
   os_versions:
    android:
     - "12"

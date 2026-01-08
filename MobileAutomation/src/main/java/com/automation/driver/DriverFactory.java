@@ -8,7 +8,9 @@ import io.appium.java_client.remote.options.BaseOptions;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.automation.configuration.ConfigManager;
@@ -44,9 +46,6 @@ public class DriverFactory {
 		port = (ConfigManager.get("server", "local", "port"));
 		executionMode = ConfigManager.get("execution", "mode");
 		 parallel = ConfigManager.get("execution", "parallel");
-			String bsUrl = ConfigManager.get("cloud", "browserstack", "url");
-			String username = ConfigManager.get("cloud", "browserstack", "username");
-			String accessKey = ConfigManager.get("cloud", "browserstack", "access_key");
 		if (executionMode.equalsIgnoreCase("local")) {
 			if (platform.equalsIgnoreCase("android")) {
 				UiAutomator2Options options = new UiAutomator2Options();
@@ -63,35 +62,31 @@ public class DriverFactory {
 
 		} else if (executionMode.equalsIgnoreCase("cloud")) {
 
-			String appId;
-			String device;
-			String osVersion;
+			String bsUrl = ConfigManager.get("cloud", "browserstack", "url");
+			String username = ConfigManager.get("cloud", "browserstack", "username");
+			String accessKey = ConfigManager.get("cloud", "browserstack", "access_key");
 
-			if (platform.equalsIgnoreCase("android")) {
-				appId = ConfigManager.get("cloud", "browserstack", "app_id_android");
-				device = ConfigManager.get("cloud", "browserstack", "device_pool", "0");
-				osVersion = ConfigManager.get("cloud", "browserstack", "os_versions", "android", "0");
-			} else {
-				appId = ConfigManager.get("cloud", "browserstack", "app_id_ios");
-				device = ConfigManager.get("cloud", "browserstack", "device_pool", "2");
-				osVersion = ConfigManager.get("cloud", "browserstack", "os_versions", "ios", "0");
-			}BaseOptions<?> options = new BaseOptions<>();
+			String strategy = ConfigManager.get("cloud", "browserstack", "device_pool", "device_strategy");
+			String deviceType = ConfigManager.get("cloud", "browserstack", "device_pool", "device_type");
+			int deviceCount = Integer.parseInt(
+					ConfigManager.get("cloud", "browserstack", "device_pool", "device_count"));
+			List<Map<String, String>> executionPool = new ArrayList<>();
+			if (strategy.equalsIgnoreCase("single")) {
 
-			options.setCapability("platformName", platform);
-			options.setCapability("deviceName", device);
-			options.setCapability("os_version", osVersion);
-			options.setCapability("app", appId);
+				String platform = deviceType;
 
-			Map<String, Object> bsOptions = new HashMap<>();
-			bsOptions.put("userName", username);
-			bsOptions.put("accessKey", accessKey);
-			bsOptions.put("projectName", ConfigManager.get("project_name"));
-			bsOptions.put("buildName", "Mobile Automation Build");
-			bsOptions.put("sessionName", "Cloud Execution");
+				String device = ConfigManager.get(
+						"cloud", "browserstack", "device_pool", platform, "0");
 
-			options.setCapability("bstack:options", bsOptions);
+				String osVersion = ConfigManager.get(
+						"cloud", "browserstack", "os_versions", platform, "0");
 
-			driver = new AppiumDriver(new URL(bsUrl), options);
+				executionPool.add(Map.of(
+						"platform", platform,
+						"device", device,
+						"os", osVersion));
+			}
+
 
 
 		} else {
